@@ -40,8 +40,6 @@
 #include "stream-inl.h"
 #include "req-inl.h"
 
-#pragma comment(lib, "User32.lib")
-
 #ifndef InterlockedOr
 # define InterlockedOr _InterlockedOr
 #endif
@@ -1679,7 +1677,7 @@ static int uv_tty_write_bufs(uv_tty_t* handle,
       max_len = (utf16_buf_used + 1) * sizeof(WCHAR);
       allocate = max_len > MAX_CONSOLE_CHAR;
       if (allocate)
-        utf16_buffer = (WCHAR*)uv__malloc(max_len);
+        utf16_buffer = (WCHAR *) uv__malloc(max_len);
       if (!MultiByteToWideChar(CP_UTF8,
                                0,
                                buf.base,

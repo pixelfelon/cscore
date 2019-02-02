@@ -19,6 +19,8 @@
  * IN THE SOFTWARE.
  */
 
+#pragma comment( lib, "AdvAPI32.lib" )
+
 #include <assert.h>
 #include <io.h>
 #include <stdbool.h>
@@ -1259,7 +1261,7 @@ static int uv__build_coalesced_write_req(uv_write_t* user_req,
                        data_length;                  /* (c) */
 
   /* Allocate buffer. */
-  heap_buffer = (char*)uv__malloc(heap_buffer_length);
+  heap_buffer = (char *) uv__malloc(heap_buffer_length);
   if (heap_buffer == NULL)
     return ERROR_NOT_ENOUGH_MEMORY; /* Maps to UV_ENOMEM. */
 
@@ -1504,7 +1506,7 @@ int uv__pipe_write_ipc(uv_loop_t* loop,
     bufs = stack_bufs;
   } else {
     /* Use heap-allocated buffer array. */
-    bufs = (uv_buf_t*)uv__calloc(buf_count, sizeof(uv_buf_t));
+    bufs = (uv_buf_t *) uv__calloc(buf_count, sizeof(uv_buf_t));
     if (bufs == NULL)
       return ERROR_NOT_ENOUGH_MEMORY; /* Maps to UV_ENOMEM. */
   }
@@ -1675,8 +1677,7 @@ static DWORD uv__pipe_read_data(uv_loop_t* loop,
 
 
 static DWORD uv__pipe_read_ipc(uv_loop_t* loop, uv_pipe_t* handle) {
-  DWORD* data_remaining =
-      (DWORD*)&handle->pipe.conn.ipc_data_frame.payload_remaining;
+  DWORD* data_remaining = (DWORD *) &handle->pipe.conn.ipc_data_frame.payload_remaining;
   int err;
 
   if (*data_remaining > 0) {
@@ -2131,7 +2132,7 @@ static int uv__pipe_getname(const uv_pipe_t* handle, char* buffer, size_t* size)
                                       FileNameInformation);
   if (nt_status == STATUS_BUFFER_OVERFLOW) {
     name_size = sizeof(*name_info) + tmp_name_info.FileNameLength;
-    name_info = (FILE_NAME_INFORMATION*)uv__malloc(name_size);
+    name_info = (FILE_NAME_INFORMATION *) uv__malloc(name_size);
     if (!name_info) {
       *size = 0;
       err = UV_ENOMEM;
